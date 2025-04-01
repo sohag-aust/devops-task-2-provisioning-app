@@ -13,9 +13,15 @@
         src: ../docker-stack.yml
         dest: /home/manager/springboot-app/docker-stack.yml
 
+    - name: Install pip packages for docker stack
+      become: true
+      command: pip3 install jsondiff docker
+      args:
+        creates: /usr/local/lib/python3.*/site-packages/jsondiff
+
     - name: Deploy stack
       community.docker.docker_stack:
-        name: springboot-app
+        name: provision-service
         state: present
         compose:
           - /home/manager/springboot-app/docker-stack.yml
