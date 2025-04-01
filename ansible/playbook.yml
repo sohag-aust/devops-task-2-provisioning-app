@@ -1,7 +1,6 @@
 ---
 - name: Deploy Spring Boot Stack
   hosts: vm4
-  become: true
   tasks:
     - name: Ensure deployment directory exists
       ansible.builtin.file:
@@ -15,6 +14,7 @@
         dest: /home/manager/springboot-app/docker-stack.yml
 
     - name: Install jsondiff for Docker Stack module
+      become: true
       ansible.builtin.pip:
         name: jsondiff
         state: present
