@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   springboot-app:
-    image: "ashrafulsohag/abc:s4"
+    image: "ashrafulsohag/provisioning:latest"
     deploy:
       replicas: 3
       placement:
@@ -15,5 +15,5 @@ services:
       - swarm-network
 
 networks:
-  app-net:
-    driver: swarm-network
+  swarm-network:
+    driver: overlay
