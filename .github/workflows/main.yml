@@ -3,7 +3,7 @@ name: Build and Deploy Provisioning Application for DevOps Task-2
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-deploy:
