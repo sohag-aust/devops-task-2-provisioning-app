@@ -18,12 +18,7 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '21'
-
-      - name: Set up Maven
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'maven'
-          maven-version: '3.9.6'
+          cache: 'maven'
 
       - name: Build the application
         run: |
