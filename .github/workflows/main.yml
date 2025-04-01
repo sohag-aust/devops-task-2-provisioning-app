@@ -43,4 +43,4 @@ jobs:
       - name: Deploy Stack
         run: |
           cd ansible
-          ansible-playbook -i inventory playbook.yml
+          ansible-playbook -i inventory playbook.yml --become -vvvv
