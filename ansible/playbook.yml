@@ -4,18 +4,18 @@
   tasks:
     - name: Ensure deployment directory exists
       ansible.builtin.file:
-        path: /opt/springboot-app
+        path: /home/manager/springboot-app
         state: directory
         mode: '0755'
 
     - name: Copy static stack file
       ansible.builtin.copy:
         src: ../docker-stack.yml
-        dest: /opt/springboot-app/docker-stack.yml
+        dest: /home/manager/springboot-app/docker-stack.yml
 
     - name: Deploy stack
       community.docker.docker_stack:
         name: springboot-app
         state: present
         compose:
-          - /opt/springboot-app/docker-stack.yml
+          - /home/manager/springboot-app/docker-stack.yml
