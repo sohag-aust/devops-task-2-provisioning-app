@@ -2,6 +2,12 @@
 - name: Deploy Spring Boot Stack
   hosts: vm4
   tasks:
+    - name: Ensure deployment directory exists
+      ansible.builtin.file:
+        path: /opt/springboot-app
+        state: directory
+        mode: '0755'
+
     - name: Copy static stack file
       ansible.builtin.copy:
         src: ../docker-stack.yml
