@@ -39,3 +39,8 @@ jobs:
       - name: push the docker image
         id: push-docker-image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/provisioning:latest
+
+      - name: Deploy Stack
+        run: |
+          cd ansible
+          ansible-playbook -i inventory playbook.yml
