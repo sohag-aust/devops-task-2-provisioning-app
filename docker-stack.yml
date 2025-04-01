@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  springboot-app:
+    image: "ashrafulsohag/abc:s4"
+    deploy:
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == worker
+    environment:
+      VM_NAME: "{{ ansible_hostname }}"  # Ansible will inject this
+    ports:
+      - "8085:8085"
+    networks:
+      - swarm-network
+
+networks:
+  app-net:
+    driver: swarm-network

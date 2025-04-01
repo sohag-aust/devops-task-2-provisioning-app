@@ -1,0 +1,15 @@
+---
+- name: Deploy Spring Boot Stack
+  hosts: vm4
+  tasks:
+    - name: Copy static stack file
+      ansible.builtin.copy:
+        src: ../docker-stack.yml
+        dest: /opt/springboot-app/docker-stack.yml
+
+    - name: Deploy stack
+      community.docker.docker_stack:
+        name: springboot-app
+        state: present
+        compose:
+          - /opt/springboot-app/docker-stack.yml

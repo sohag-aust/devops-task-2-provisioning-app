@@ -1,0 +1,14 @@
+all:
+  children:
+    managers:
+      hosts:
+        vm4:
+          ansible_host: 192.168.123.14
+    workers:
+      hosts:
+        vm1:
+          ansible_host: 192.168.123.11
+        vm2:
+          ansible_host: 192.168.123.12
+        vm3:
+          ansible_host: 192.168.123.13
