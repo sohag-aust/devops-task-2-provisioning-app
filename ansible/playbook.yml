@@ -13,11 +13,11 @@
         src: ../docker-stack.yml
         dest: /home/manager/springboot-app/docker-stack.yml
 
-    - name: Install jsondiff for Docker Stack module
-      become: true
-      ansible.builtin.pip:
-        name: jsondiff
-        state: present
+#    - name: Install jsondiff for Docker Stack module
+#      become: true
+#      ansible.builtin.pip:
+#        name: jsondiff
+#        state: present
 
     - name: Deploy stack
       community.docker.docker_stack:
