@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  springboot-app:
+  backend:
     image: "ashrafulsohag/provisioning:latest"
     deploy:
       replicas: 3
@@ -13,6 +13,19 @@ services:
     - target: 8085
       published: 8085
       mode: host # Ensures request goes directly to the node
+    networks:
+    - swarm-network
+
+  visualizer:
+    image: dockersamples/visualizer:latest
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+    ports:
+    - "9000:8080"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
     - swarm-network
 
