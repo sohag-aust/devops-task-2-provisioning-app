@@ -3,6 +3,7 @@ services:
   springboot-app:
     image: "ashrafulsohag/provisioning:latest"
     deploy:
+      endpoint_mode: dnsrr
       replicas: 3
       placement:
         constraints:
