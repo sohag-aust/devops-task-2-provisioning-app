@@ -1,6 +1,6 @@
 ---
 - name: Deploy Spring Boot Stack
-  hosts: swarm_manager
+  hosts: vm4
   tasks:
   - name: Ensure deployment directory exists
     ansible.builtin.file:
