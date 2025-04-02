@@ -27,6 +27,12 @@
   #        name: jsondiff
   #        state: present
 
+  - name: Replace placeholder with commit hash
+    ansible.builtin.replace:
+      path: /home/manager/springboot-app/docker-stack.yml
+      regexp: 'COMMIT_HASH_PLACEHOLDER'
+      replace: "{{ git_commit_hash }}"
+
   - name: Deploy stack
     community.docker.docker_stack:
       name: provision-service

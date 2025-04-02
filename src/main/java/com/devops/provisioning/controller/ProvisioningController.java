@@ -12,9 +12,12 @@ public class ProvisioningController {
     @Value("${vm.name}")
     private String vmName;
 
+    @Value("${commit.hash}")
+    private String commitHash;
+
     @GetMapping("/")
     public String getVmName() {
         log.info("Response generated from :: {}", vmName);
-        return "Hello from :: " + vmName;
+        return "Hello from :: " + vmName + " || the app deployed with commit hash :: " + commitHash;
     }
 }

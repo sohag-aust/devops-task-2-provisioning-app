@@ -13,6 +13,7 @@ services:
           memory: 512M
     environment:
       VM_NAME: "{{.Node.Hostname}}"
+      GIT_COMMIT_HASH: "COMMIT_HASH_PLACEHOLDER"
     ports:
     - target: 8085
       published: 8085
