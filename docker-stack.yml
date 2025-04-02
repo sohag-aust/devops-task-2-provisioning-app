@@ -3,17 +3,18 @@ services:
   springboot-app:
     image: "ashrafulsohag/provisioning:latest"
     deploy:
-      endpoint_mode: dnsrr
       replicas: 3
       placement:
         constraints:
-          - node.role == worker
+        - node.role == worker
     environment:
       VM_NAME: "{{.Node.Hostname}}"
     ports:
-      - "8085:8085"
+    - target: 8085
+      published: 8085
+      mode: host # Ensures request goes directly to the node
     networks:
-      - swarm-network
+    - swarm-network
 
 networks:
   swarm-network:
