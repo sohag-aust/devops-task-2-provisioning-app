@@ -7,8 +7,8 @@ services:
       placement:
         constraints:
           - node.role == worker
-#    environment:
-#      VM_NAME: "{{ ansible_hostname }}"  # Ansible will inject this
+    environment:
+      VM_NAME: "{{.Node.Hostname}}"
     ports:
       - "8085:8085"
     networks:
