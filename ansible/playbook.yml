@@ -1,27 +1,27 @@
 ---
 - name: Deploy Spring Boot Stack
-  hosts: vm4
+  hosts: swarm_manager
   tasks:
-    - name: Ensure deployment directory exists
-      ansible.builtin.file:
-        path: /home/manager/springboot-app
-        state: directory
-        mode: '0755'
+  - name: Ensure deployment directory exists
+    ansible.builtin.file:
+      path: /home/manager/springboot-app
+      state: directory
+      mode: '0755'
 
-    - name: Copy static stack file
-      ansible.builtin.copy:
-        src: ../docker-stack.yml
-        dest: /home/manager/springboot-app/docker-stack.yml
+  - name: Copy static stack file
+    ansible.builtin.copy:
+      src: ../docker-stack.yml
+      dest: /home/manager/springboot-app/docker-stack.yml
 
-#    - name: Install jsondiff for Docker Stack module
-#      become: true
-#      ansible.builtin.pip:
-#        name: jsondiff
-#        state: present
+  #    - name: Install jsondiff for Docker Stack module
+  #      become: true
+  #      ansible.builtin.pip:
+  #        name: jsondiff
+  #        state: present
 
-    - name: Deploy stack
-      community.docker.docker_stack:
-        name: provision-service
-        state: present
-        compose:
-          - /home/manager/springboot-app/docker-stack.yml
+  - name: Deploy stack
+    community.docker.docker_stack:
+      name: provision-service
+      state: present
+      compose:
+      - /home/manager/springboot-app/docker-stack.yml
