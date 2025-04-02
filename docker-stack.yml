@@ -7,6 +7,10 @@ services:
       placement:
         constraints:
         - node.role == worker
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
     environment:
       VM_NAME: "{{.Node.Hostname}}"
     ports:
