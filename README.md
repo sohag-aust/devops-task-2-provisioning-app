@@ -1,4 +1,4 @@
-### Provisioning App for DevOps Task-2
+### Provisioning App for DevOps Task-2 in a Swarm Cluster
     How Overlay Network and mode: host Work Separately?
     Docker overlay networking is used for inter-container communication between nodes in a Swarm cluster.
 
@@ -34,6 +34,6 @@
     🔹 Host mode for ports → Ensures external traffic reaches the correct node without routing mesh.
     🔹 No conflict because networking layers are separate (Swarm VXLAN for overlay vs. direct host networking for external access).
 
-    Let me know if you need further clarification! 
+    
 
 
