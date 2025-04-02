@@ -1,7 +1,15 @@
 ---
 - name: Deploy Spring Boot Stack
   hosts: vm4
+
+  vars:
+    git_commit_hash: "{{ git_commit_hash }}"
+
   tasks:
+  - name: Display latest commit hash
+    ansible.builtin.debug:
+      msg: "Deploying by commit: {{ git_commit_hash }}"
+
   - name: Ensure deployment directory exists
     ansible.builtin.file:
       path: /home/manager/springboot-app
