@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: provisioning
+
+vm:
+  name: ${VM_NAME:unknown}
+
+commit:
+  hash: ${GIT_COMMIT_HASH:unknown}
+
+server:
+  port: 8085
+
+# Actuator properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
