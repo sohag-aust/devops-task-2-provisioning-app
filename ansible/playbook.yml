@@ -71,12 +71,16 @@
     debug:
       var: dir_list.stdout_lines
 
-  - name: Create prometheus docker config
+  - name: Get file content using slurp (works on remote)
+    slurp:
+      src: /home/manager/observability/prometheus.yml
+    register: file_content
+
+  - name: Create Docker config
     community.docker.docker_config:
       name: prometheus-config
       state: present
-      data: "{{ lookup('file', config_path) }}"
-    when: file_stat.stat.exists
+      data: "{{ file_content.content | b64decode }}"
 
   # - name: Create Docker config for grafana datasource.yml
   #   community.docker.docker_config:
