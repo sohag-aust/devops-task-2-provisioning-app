@@ -30,11 +30,88 @@ services:
     ports:
     - target: 8080
       published: 9000
-      mode: host # Ensures request goes directly to the node
+      mode: host
     volumes:
     - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
     - swarm-network
+
+  prometheus:
+    image: prom/prometheus
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 700M
+    ports:
+    - target: 9090
+      published: 9090
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - swarm-network
+
+  grafana:
+    image: grafana/grafana
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 700M
+    ports:
+    - target: 3000
+      published: 3000
+    volumes:
+      - ./observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - swarm-network
+
+  node-exporter:
+    image: prom/node-exporter
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 700M
+    ports:
+    - target: 9100
+      published: 9100
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - swarm-network
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 700M
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+    - target: 8080
+      published: 8080
+    networks:
+      - swarm-network
 
 networks:
   swarm-network:
