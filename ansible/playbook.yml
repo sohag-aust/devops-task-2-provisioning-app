@@ -32,6 +32,7 @@
       src: ../observability/
       dest: /home/manager/observability/
       recursive: yes
+      remote_src: yes
 
   - name: Set absolute path fact
     set_fact:
