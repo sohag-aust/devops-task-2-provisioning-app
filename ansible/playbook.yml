@@ -28,12 +28,10 @@
       dest: /home/manager/backend/docker-stack.yml
 
   - name: Copy observability folder with all its content
-    ansible.builtin.copy:
+    ansible.builtin.synchronize:
       src: ../observability/
       dest: /home/manager/observability/
-      mode: '0644'
-      directory_mode: '0755'
-      recurse: true
+      recursive: yes
 
   #    - name: Install jsondiff for Docker Stack module
   #      become: true
