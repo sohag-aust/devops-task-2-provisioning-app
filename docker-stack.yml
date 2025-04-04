@@ -41,7 +41,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.role == manager
+        - node.role == manager
       resources:
         limits:
           memory: 700M
@@ -49,17 +49,17 @@ services:
     - target: 9090
       published: 9090
     volumes:
-      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
+    - /home/manager/springboot-app/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    - prometheus-data:/prometheus
     networks:
-      - swarm-network
+    - swarm-network
 
   grafana:
     image: grafana/grafana
     deploy:
       placement:
         constraints:
-          - node.role == manager
+        - node.role == manager
       resources:
         limits:
           memory: 700M
@@ -67,12 +67,12 @@ services:
     - target: 3000
       published: 3000
     volumes:
-      - ./observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-      - grafana-data:/var/lib/grafana
+    - /home/manager/springboot-app/observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    - grafana-data:/var/lib/grafana
     depends_on:
-      - prometheus
+    - prometheus
     networks:
-      - swarm-network
+    - swarm-network
 
   node-exporter:
     image: prom/node-exporter
@@ -85,15 +85,15 @@ services:
     - target: 9100
       published: 9100
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    - '--path.procfs=/host/proc'
+    - '--path.sysfs=/host/sys'
+    - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
     networks:
-      - swarm-network
+    - swarm-network
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -103,15 +103,15 @@ services:
         limits:
           memory: 700M
     volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
     ports:
     - target: 8080
       published: 8080
     networks:
-      - swarm-network
+    - swarm-network
 
 networks:
   swarm-network:
