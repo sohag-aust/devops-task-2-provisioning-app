@@ -33,6 +33,18 @@
       dest: /home/manager/observability/
       recursive: yes
 
+  - name: Create Docker config for prometheus.yml
+    community.docker.docker_config:
+      name: prometheus-config
+      state: present
+      data: "{{ lookup('file', '/home/manager/observability/prometheus/prometheus.yml') }}"
+
+  - name: Create Docker config for grafana datasource.yml
+    community.docker.docker_config:
+      name: grafana-config
+      state: present
+      data: "{{ lookup('file', '/home/manager/observability/grafana/datasource.yml') }}"
+
   #    - name: Install jsondiff for Docker Stack module
   #      become: true
   #      ansible.builtin.pip:
