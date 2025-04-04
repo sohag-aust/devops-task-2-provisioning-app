@@ -37,10 +37,40 @@
     set_fact:
       config_path: "/home/manager/observability/prometheus/prometheus.yml"
 
+  - name: Show current working directory
+    debug:
+      msg: "Playbook running from: {{ lookup('env','PWD') }}"
+
   - name: Verify file exists
     stat:
       path: "{{ config_path }}"
     register: file_stat
+
+  - name: Debug stat results
+    debug:
+      var: file_stat
+
+  - name: Try direct file read
+    command: cat "{{ config_path }}"
+    register: direct_read
+    ignore_errors: true
+
+  - name: Show direct read results
+    debug:
+      var: direct_read
+
+  - name: Attempt lookup with absolute path
+    debug:
+      msg: "Lookup result: {{ lookup('file', config_path) }}"
+    ignore_errors: true
+
+  - name: List directory contents
+    command: ls -la /home/manager/observability/prometheus/
+    register: dir_list
+
+  - name: Show directory contents
+    debug:
+      var: dir_list.stdout_lines
 
   - name: Create prometheus docker config
     community.docker.docker_config:
