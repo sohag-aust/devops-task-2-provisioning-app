@@ -49,7 +49,7 @@ services:
     - target: 9090
       published: 9090
     volumes:
-    - /home/manager/springboot-app/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    - /home/manager/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     - prometheus-data:/prometheus
     networks:
     - swarm-network
@@ -67,7 +67,7 @@ services:
     - target: 3000
       published: 3000
     volumes:
-    - /home/manager/springboot-app/observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    - /home/manager/observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     - grafana-data:/var/lib/grafana
     depends_on:
     - prometheus

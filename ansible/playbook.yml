@@ -10,16 +10,30 @@
     ansible.builtin.debug:
       msg: "Deploying by commit: {{ git_commit_hash }}"
 
-  - name: Ensure deployment directory exists
+  - name: Ensure backend app directory exists
     ansible.builtin.file:
-      path: /home/manager/springboot-app
+      path: /home/manager/backend
+      state: directory
+      mode: '0755'
+
+  - name: Ensure observability directory exists
+    ansible.builtin.file:
+      path: /home/manager/observability
       state: directory
       mode: '0755'
 
   - name: Copy static stack file
     ansible.builtin.copy:
       src: ../docker-stack.yml
-      dest: /home/manager/springboot-app/docker-stack.yml
+      dest: /home/manager/backend/docker-stack.yml
+
+  - name: Copy observability folder with all its content
+    ansible.builtin.copy:
+      src: ../observability/
+      dest: /home/manager/observability/
+      mode: '0644'
+      directory_mode: '0755'
+      recurse: true
 
   #    - name: Install jsondiff for Docker Stack module
   #      become: true
