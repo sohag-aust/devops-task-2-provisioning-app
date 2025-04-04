@@ -116,3 +116,7 @@ services:
 networks:
   swarm-network:
     driver: overlay
+
+volumes:
+  prometheus-data:
+  grafana-data:
