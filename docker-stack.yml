@@ -48,9 +48,6 @@ services:
     ports:
     - target: 9090
       published: 9090
-    # configs:
-    # - source: prometheus-config
-    #   target: /etc/prometheus/prometheus.yml
     volumes:
     - ../observability/prometheus.yml:/etc/prometheus/prometheus.yml
     - prometheus-data:/prometheus
@@ -69,9 +66,6 @@ services:
     ports:
     - target: 3000
       published: 3000
-    # configs:
-    # - source: grafana-config
-    #   target: /etc/grafana/provisioning/datasources/datasource.yml
     volumes:
     - ../observability/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     - grafana-data:/var/lib/grafana
