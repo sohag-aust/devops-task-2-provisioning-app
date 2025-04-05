@@ -22,65 +22,70 @@
       state: directory
       mode: '0755'
 
-  - name: Copy static stack file
+  - name: Copy docker stack file
     ansible.builtin.copy:
       src: ../docker-stack.yml
       dest: /home/manager/backend/docker-stack.yml
 
-  - name: Copy observability folder with all its content
+  - name: Copy prometheus config
     ansible.builtin.copy:
       src: ../observability/prometheus/prometheus.yml
       dest: /home/manager/observability/prometheus.yml
 
-  - name: Set absolute path fact
-    set_fact:
-      config_path: "/home/manager/observability/prometheus.yml"
+  - name: Copy grafana config
+    ansible.builtin.copy:
+      src: ../observability/grafana/datasource.yml
+      dest: /home/manager/observability/datasource.yml
 
-  - name: Show current working directory
-    debug:
-      msg: "Playbook running from: {{ lookup('env','PWD') }}"
+  # - name: Set absolute path fact
+  #   set_fact:
+  #     config_path: "/home/manager/observability/prometheus.yml"
 
-  - name: Verify file exists
-    stat:
-      path: "{{ config_path }}"
-    register: file_stat
+  # - name: Show current working directory
+  #   debug:
+  #     msg: "Playbook running from: {{ lookup('env','PWD') }}"
 
-  - name: Debug stat results
-    debug:
-      var: file_stat
+  # - name: Verify file exists
+  #   stat:
+  #     path: "{{ config_path }}"
+  #   register: file_stat
 
-  - name: Try direct file read
-    command: cat "{{ config_path }}"
-    register: direct_read
-    ignore_errors: true
+  # - name: Debug stat results
+  #   debug:
+  #     var: file_stat
 
-  - name: Show direct read results
-    debug:
-      var: direct_read
+  # - name: Try direct file read
+  #   command: cat "{{ config_path }}"
+  #   register: direct_read
+  #   ignore_errors: true
 
-  - name: Attempt lookup with absolute path
-    debug:
-      msg: "Lookup result: {{ lookup('file', config_path) }}"
-    ignore_errors: true
+  # - name: Show direct read results
+  #   debug:
+  #     var: direct_read
 
-  - name: List directory contents
-    command: ls -la /home/manager/observability/
-    register: dir_list
+  # - name: Attempt lookup with absolute path
+  #   debug:
+  #     msg: "Lookup result: {{ lookup('file', config_path) }}"
+  #   ignore_errors: true
 
-  - name: Show directory contents
-    debug:
-      var: dir_list.stdout_lines
+  # - name: List directory contents
+  #   command: ls -la /home/manager/observability/
+  #   register: dir_list
 
-  - name: Get file content using slurp (works on remote)
-    slurp:
-      src: /home/manager/observability/prometheus.yml
-    register: file_content
+  # - name: Show directory contents
+  #   debug:
+  #     var: dir_list.stdout_lines
 
-  - name: Create Docker config
-    community.docker.docker_config:
-      name: prometheus-config
-      state: present
-      data: "{{ file_content.content | b64decode }}"
+  # - name: Get file content using slurp (works on remote)
+  #   slurp:
+  #     src: /home/manager/observability/prometheus.yml
+  #   register: file_content
+
+  # - name: Create Docker config
+  #   community.docker.docker_config:
+  #     name: prometheus-config
+  #     state: present
+  #     data: "{{ file_content.content | b64decode }}"
 
   # - name: Create Docker config for grafana datasource.yml
   #   community.docker.docker_config:
@@ -96,7 +101,7 @@
 
   - name: Replace placeholder with commit hash
     ansible.builtin.replace:
-      path: /home/manager/springboot-app/docker-stack.yml
+      path: /home/manager/backend/docker-stack.yml
       regexp: 'COMMIT_HASH_PLACEHOLDER'
       replace: "{{ git_commit_hash }}"
 
@@ -105,4 +110,4 @@
       name: provision-service
       state: present
       compose:
-      - /home/manager/springboot-app/docker-stack.yml
+      - /home/manager/backend/docker-stack.yml
