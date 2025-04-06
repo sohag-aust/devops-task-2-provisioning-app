@@ -80,9 +80,6 @@ services:
     image: prom/node-exporter
     deploy:
       mode: global
-      resources:
-        limits:
-          memory: 700M
     ports:
     - target: 9100
       published: 9100
@@ -102,9 +99,6 @@ services:
     image: gcr.io/cadvisor/cadvisor:latest
     deploy:
       mode: global
-      resources:
-        limits:
-          memory: 700M
     volumes:
     - /:/rootfs:ro
     - /var/run:/var/run:ro
