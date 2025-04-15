@@ -9,20 +9,6 @@ scrape_configs:
     - '192.168.123.12:9100'
     - '192.168.123.13:9100'
     - '192.168.123.14:9100'
-  relabel_configs:
-  - source_labels: [ __address__ ]
-    target_label: __param_target
-  - source_labels: [ __param_target ]
-    target_label: instance
-  - target_label: node # Adds a 'node' label
-    replacement: "node-$1" # Custom naming pattern
-    action: replace
-    source_labels: [ __meta_docker_container_name ]
-  - target_label: hostname
-    replacement: "${1}"
-    action: replace
-    source_labels: [ __address__ ]
-    regex: '([^:]+)(:\d+)?'
 
 - job_name: 'cadvisor'
   static_configs:
