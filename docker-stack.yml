@@ -83,7 +83,6 @@ services:
     ports:
     - target: 9100
       published: 9100
-      mode: host
     volumes:
     - /proc:/host/proc:ro
     - /sys:/host/sys:ro
@@ -107,7 +106,6 @@ services:
     ports:
     - target: 8080
       published: 8080
-      mode: host
     networks:
     - swarm-network
 
